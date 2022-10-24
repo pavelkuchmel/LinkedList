@@ -10,5 +10,10 @@ public interface InterfaceLinkedList <S> {
     int size();
     Object[] toArray();
     boolean find(Object obj);
+    void sortedNodeIndex();
+    S get(int index);
+    boolean remove(int index);
+    void removeFirst();
+    void removeLast();
 
 }

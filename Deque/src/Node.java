@@ -3,6 +3,10 @@ public class Node <S> {
     public Node(S data){
         this.data = data;
     }
+    public Node(S data, int index){
+        this.index = index;
+        this.data = data;
+    }
 
     @Override
     public String toString() {

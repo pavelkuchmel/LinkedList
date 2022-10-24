@@ -5,6 +5,34 @@ public class LinkedList <S> implements InterfaceLinkedList<S>{
         head = null;
         tail = null;
     }
+    public LinkedList(S ...data){
+        head = tail = null;
+        for (S datum : data) {
+            addLast(datum);
+        }
+        sortedNodeIndex();
+    }
+    public void addFirstIndex(S data) {
+        Node<S> newNode = new Node<>(data);
+        if (isEmpty()) { head = tail = newNode; }
+        else {
+            head.next = newNode;
+            newNode.previous = head;
+            head = newNode;
+            sortedNodeIndex();
+        }
+    }
+    public void addLastIndex(S data) {
+        Node<S> newNode = new Node<>(data);
+        if (isEmpty()) { head = tail = newNode; }
+        else {
+            newNode.next = tail;
+            tail.previous = newNode;
+            tail = newNode;
+            sortedNodeIndex();
+        }
+    }
+
     @Override
     public void addFirst(S data) {
         Node<S> newNode = new Node<>(data);
@@ -47,6 +75,7 @@ public class LinkedList <S> implements InterfaceLinkedList<S>{
         head = head.previous;
         current.previous.next = null;
         current.previous = null;
+        sortedNodeIndex();
         return (S) current.data;
     }
 
@@ -58,6 +87,7 @@ public class LinkedList <S> implements InterfaceLinkedList<S>{
         tail = current.next;
         current.next.previous = null;
         current.previous = null;
+        sortedNodeIndex();
         return (S) current.data;
     }
 
@@ -76,8 +106,21 @@ public class LinkedList <S> implements InterfaceLinkedList<S>{
         return (S) head.next.data;
     }
 
+    public int showHeadNodeIndex(){
+        return head.index;
+    }
+
+    public int showHeadPreviousNodeIndex(){
+        return head.previous.index;
+    }
+
+    public int showTailNodeIndex(){
+        return tail.index;
+    }
+
     @Override
     public void clearAll() {
+        int i = 0;
         try {
             while (tail.next != null) {
                 tail = tail.next;
@@ -134,6 +177,75 @@ public class LinkedList <S> implements InterfaceLinkedList<S>{
             current = current.next;
         }
         return false;
+    }
+
+    @Override
+    public void sortedNodeIndex() throws NullPointerException{
+        if (isEmpty()) throw new NullPointerException("List is empty");
+        Node<S> current = head;
+        int index = 0;
+        while (current != null){
+            current.index = index;
+            current = current.previous;
+            index++;
+        }
+    }
+
+    @Override
+    public S get(int index) throws NullPointerException{
+        if (isEmpty())throw new NullPointerException("List is empty");
+        if (index >= size())throw new NullPointerException("The index is out of the list. List size: "+size());
+        if (index < 0)throw new NullPointerException("The index less then 0");
+        Node<S> current = head;
+        while (current != null){
+            if (current.index == index) break;
+            current = current.previous;
+        }
+        //if (current == null) throw new NullPointerException("The index is out of the list. List size: "+size());
+        //assert current != null;
+        return current.data;
+    }
+
+    @Override
+    public boolean remove(int index) throws NullPointerException{
+        if (isEmpty())throw new NullPointerException("List is empty");
+        if (index >= size())throw new NullPointerException("The index is out of the list. List size: "+size());
+        if (index < 0)throw new NullPointerException("The index less then 0");
+        Node<S> current = head;
+        while (current != null){
+            if (current.index == index){
+                if (current == head) removeFirst();
+                else if (current == tail) removeLast();
+                else {
+                    current.previous.next = current.next;
+                    current.next.previous = current.previous;
+                    current.previous = null;
+                    current.next = null;
+                    sortedNodeIndex();
+                }
+                return true;
+            }
+            current = current.previous;
+        }
+        return false;
+    }
+
+    @Override
+    public void removeFirst() throws NullPointerException{
+        if (isEmpty())throw new NullPointerException("List is empty");
+        head = head.previous;
+        head.next.previous = null;
+        head.next = null;
+        sortedNodeIndex();
+    }
+
+    @Override
+    public void removeLast() throws NullPointerException{
+        if (isEmpty())throw new NullPointerException("List is empty");
+        tail = tail.next;
+        tail.previous.next = null;
+        tail.previous = null;
+        sortedNodeIndex();
     }
 
     @Override
