@@ -249,6 +249,41 @@ public class LinkedList <S> implements InterfaceLinkedList<S>{
     }
 
     @Override
+    public void set(int index, S data) throws NullPointerException{
+        if (isEmpty())throw new NullPointerException("List is empty");
+        if (index >= size())throw new NullPointerException("The index is out of the list. List size: "+size());
+        if (index < 0)throw new NullPointerException("The index less then 0");
+        Node<S> current = head;
+        while (current != null){
+            if (current.index == 0) current.data = data;
+            current = current.previous;
+        }
+    }
+
+    @Override
+    public void add(int index, S data) throws NullPointerException{
+        if (isEmpty())throw new NullPointerException("List is empty");
+        if (index >= size())throw new NullPointerException("The index is out of the list. List size: "+size());
+        if (index < 0)throw new NullPointerException("The index less then 0");
+        if (index == 0)addFirst(data);
+        else if (index == size()-1)addLast(data);
+        else {
+            Node<S> newNode = new Node<>(data);
+            Node<S> current = head;
+            while (current != null){
+                if (current.index == index) {
+                    current.next.previous = newNode;
+                    newNode.previous = current;
+                    newNode.next = current.next;
+                    current.next = newNode;
+                }
+                current = current.previous;
+            }
+            sortedNodeIndex();
+        }
+    }
+
+    @Override
     public String toString() {
         StringBuilder buffer = new StringBuilder();
         Node<S> current = head;

@@ -15,5 +15,7 @@ public interface InterfaceLinkedList <S> {
     boolean remove(int index);
     void removeFirst();
     void removeLast();
+    void set(int index, S data);
+    void add(int index, S data);
 
 }

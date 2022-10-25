@@ -16,10 +16,16 @@ public class Main {
         System.out.println(test);
 
         try{
-            test.remove(1);
+            test.add(1, new HeavyBox());
         }catch (NullPointerException ex){
             System.out.println(ex.getMessage());
         }
+
+        /*try{
+            System.out.println(test.get(5));
+        }catch (NullPointerException ex){
+            System.out.println(ex.getMessage());
+        }*/
 
         System.out.println(test);
 
@@ -32,11 +38,11 @@ public class Main {
         /*System.out.println(test.showHeadNodeIndex());
         System.out.println(test.showTailNodeIndex());*/
 
-        try {
+        /*try {
             System.out.println(test.get(1));
         }catch (NullPointerException ex){
             System.out.println(ex.getMessage());
-        }
+        }*/
 
 
         /*HeavyBox box = new HeavyBox(666.66);
